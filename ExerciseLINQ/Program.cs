@@ -91,14 +91,14 @@
             //Where
             //• Hämta alla studenter som är äldre än 20.
             List<Student> ageList = studenter.Where(s => s.Alder > 20).ToList();
-            Console.WriteLine("Personer över 20:");
+            Console.WriteLine("Antal studenter över 20:");
             foreach (var item in ageList)
             {
                 Console.WriteLine(item.ToString());
             }
             //• Hämta alla studenter som har mer än 80 poäng.
             List<Student> pointList = studenter.Where(s => s.Poang > 80).ToList();
-            Console.WriteLine("\nPersoner med mer än 80 poäng:");
+            Console.WriteLine("\nAntal studenter med mer än 80 poäng:");
             foreach (var item in pointList)
             {
                 Console.WriteLine(item.ToString());
@@ -107,7 +107,7 @@
             //Select
             //• Visa bara namnen på alla studenter.
             List<string> nameList = studenter.Select(s=> s.Namn).ToList();
-            Console.WriteLine("\nListar endast namn på alla personer");
+            Console.WriteLine("\nListar endast namn på alla studenter");
             foreach (var item in nameList)
             {
                 Console.WriteLine(item);
@@ -115,7 +115,7 @@
 
             //• Visa namn och poäng i en ny anonym typ.
             List<(string, int)> anonymous = studenter.Select(s => (s.Namn, s.Poang)).ToList();
-            Console.WriteLine("\nListar endast namn och poäng på alla personer");
+            Console.WriteLine("\nListar endast namn och poäng på alla studenter");
             foreach (var item in anonymous)
             {
                 Console.WriteLine($"{item.Item1} {item.Item2}");
@@ -138,23 +138,54 @@
                 Console.WriteLine(item.ToString());
             }
 
+            //Count
+            //• Räkna hur många studenter som finns.
+            int counted = studenter.Count();
+            Console.WriteLine($"\nVisar antal studenter i listan: {counted}");
+
+            //• Räkna hur många som går i klass A
+            int countedClass = studenter.Where(s => s.Klass == "A").Count();
+            Console.WriteLine($"\nVisar antal studenter i Klass A: {countedClass}");
+
+            //Take
+            //• Ta ut de tre första studenterna.
+            List<Student> threeFirst = studenter.Take(3).ToList();
+            Console.WriteLine("\nListar de tre första studenterna:");
+            foreach (var item in threeFirst)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+            //• Ta ut de två bästa poängen efter sortering.
+            List<Student> sortAndTake2 = studenter.OrderByDescending(s => s.Poang).Take(2).ToList();
+            Console.WriteLine("\nListar de två studenterna med högst poäng:");
+            foreach (var item in sortAndTake2)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+            //Distinct
+            //• Visa alla unika klassnamn.
+            List<string> distinctClass = studenter.Select(s => s.Klass).Distinct().ToList();
+            Console.WriteLine("\nListar alla olika klasser:");
+            foreach (var item in distinctClass)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            //• Visa alla unika åldrar.
+            List<int> distinctAge = studenter.OrderBy(s=> s.Alder).Select(s => s.Alder).Distinct().ToList();
+            Console.WriteLine("\nListar alla olika åldrar (tog även sorterad efter ålder):");
+            foreach (var item in distinctAge)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
 
         }
     }
 }
 
 
-//Count
-//• Räkna hur många studenter som finns.
-//• Räkna hur många som går i klass A
-
-//Take
-//• Ta ut de tre första studenterna.
-//• Ta ut de två bästa poängen efter sortering.
-
-//Distinct
-//• Visa alla unika klassnamn.
-//• Visa alla unika åldrar.
 
 //Any / All
 //• Finns det någon student med 100 poäng?
