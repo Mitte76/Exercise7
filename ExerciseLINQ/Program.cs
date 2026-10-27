@@ -106,7 +106,7 @@
 
             //Select
             //• Visa bara namnen på alla studenter.
-            List<string> nameList = studenter.Select(s=> s.Namn).ToList();
+            List<string> nameList = studenter.Select(s => s.Namn).ToList();
             Console.WriteLine("\nListar endast namn på alla studenter");
             foreach (var item in nameList)
             {
@@ -173,34 +173,87 @@
                 Console.WriteLine(item.ToString());
             }
             //• Visa alla unika åldrar.
-            List<int> distinctAge = studenter.OrderBy(s=> s.Alder).Select(s => s.Alder).Distinct().ToList();
+            List<int> distinctAge = studenter
+                .OrderBy(s => s.Alder)
+                .Select(s => s.Alder)
+                .Distinct()
+                .ToList();
             Console.WriteLine("\nListar alla olika åldrar (tog även sorterad efter ålder):");
             foreach (var item in distinctAge)
             {
                 Console.WriteLine(item.ToString());
             }
 
+            //Any / All
+            //• Finns det någon student med 100 poäng?
+            Console.WriteLine("\nFinns det någon student med exakt 100 poäng?");
+            bool has100Points = studenter.Any(s => s.Poang == 100);
+            Console.WriteLine(has100Points);
 
+            //• Har alla studenter minst 50 poäng?
+            Console.WriteLine("\nHar alla studenter mer än 50 poäng?");
+            bool min50Points = studenter.All(s => s.Poang > 50);
+            Console.WriteLine(min50Points);
+
+            //FirstOrDefault / Last / Single
+            //• Hämta första studenten i klass B.
+            Console.WriteLine("\nListar första personen som tillhör klass B");
+            Student? firstInKlassB = studenter.FirstOrDefault(s => s.Klass == "B");
+            if (firstInKlassB != null)
+            {
+                Console.WriteLine(firstInKlassB.ToString());
+            }
+
+            //• Hämta sista studenten i listan.
+            Console.WriteLine("\nVisar sista studenten i listan");
+            Student? lastInList = studenter.LastOrDefault();
+            if (lastInList != null)
+            {
+                Console.WriteLine(lastInList.ToString());
+            }
+
+            //• Hämta studenten med ett visst Id.
+            Console.WriteLine("\nVisar student med id 6");
+            Student? findStudentWitIdX = studenter.SingleOrDefault(s => s.Id == 6);
+            if (findStudentWitIdX != null)
+            {
+                Console.WriteLine(findStudentWitIdX.ToString());
+            }
+
+            //GroupBy
+            //• Gruppera studenter per klass.
+            //• Skriv ut varje klass och namnen i gruppen.
+            var groupedByClass = studenter.GroupBy(s => s.Klass).ToList();
+            Console.WriteLine("\nListar studenter klassvis:");
+            foreach (var item in groupedByClass)
+            {
+                Console.WriteLine($"Klass: {item.Key}");
+
+                foreach (Student student in item)
+                {
+                    Console.WriteLine(student.ToString());
+                }
+                Console.WriteLine();
+            }
+
+            //Sum / Average / Min / Max
+            //• Summera alla poäng.
+
+            Console.WriteLine("\nVisar summan av poängen för alla studenter:");
+            int totalPoints = studenter.Sum(s => s.Poang);
+            Console.WriteLine($"Summa: {totalPoints}");
+
+            //• Räkna ut medelpoäng.
+            Console.WriteLine("\nVisar snittpoängen för alla studenter:");
+            double averagePoint = studenter.Average(s => s.Poang);
+            Console.WriteLine($"Summa: {averagePoint}");
+
+            //• Hitta lägsta och högsta poäng
+            Console.WriteLine("\nVisar högsta och lägsta poäng bland studenterna:");
+            int highestPoint = studenter.Max(s => s.Poang);
+            int lowestPoint = studenter.Min(s => s.Poang);
+
+            Console.WriteLine($"Högst: {highestPoint}, Lägst: {lowestPoint}");
         }
     }
 }
-
-
-
-//Any / All
-//• Finns det någon student med 100 poäng?
-//• Har alla studenter minst 50 poäng?
-
-//FirstOrDefault / Last / Single
-//• Hämta första studenten i klass B.
-//• Hämta sista studenten i listan.
-//• Hämta studenten med ett visst Id.
-
-//GroupBy
-//• Gruppera studenter per klass.
-//• Skriv ut varje klass och namnen i gruppen.
-
-//Sum / Average / Min / Max
-//• Summera alla poäng.
-//• Räkna ut medelpoäng.
-//• Hitta lägsta och högsta poäng
